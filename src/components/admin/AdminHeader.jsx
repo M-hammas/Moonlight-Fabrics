@@ -1,0 +1,2 @@
+import React from "react";import {useAuth} from "../../context/AuthContext";
+export default function AdminHeader({title,subtitle}){const {user}=useAuth();return <header className="admin-header"><div><span className="eyebrow">CONTROL CENTER</span><h1>{title}</h1>{subtitle&&<p>{subtitle}</p>}</div><div className="admin-user"><span>{user?.name||"Administrator"}</span><small>{user?.email}</small></div></header>}

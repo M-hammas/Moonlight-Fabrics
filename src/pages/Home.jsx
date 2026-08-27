@@ -1,0 +1,16 @@
+import React,{useMemo} from "react";
+import {Link,useSearchParams} from "react-router-dom";
+import ProductCard from "../components/shop/ProductCard";
+import {useProducts} from "../context/ProductContext";
+export default function Home(){
+ const [params]=useSearchParams(); const {products,syncing}=useProducts();
+ const q=(params.get("q")||"").toLowerCase(), cat=params.get("cat"), sale=params.get("sale");
+ const filtered=useMemo(()=>products.filter(p=>(!q||`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(q))&&(!cat||p.category.toLowerCase().replaceAll(" ","-").includes(cat))&&(!sale||p.isSale||p.is_sale)),[products,q,cat,sale]);
+ const sections=[["Women Clothing","Women’s Signature Edit","/shop?cat=women-clothing"],["Women Fragrance","Signature Scents","/shop?cat=women-fragrance"],["Shoes","Step Into Sidra","/shop?cat=shoes"],["Undergarments","Everyday Comfort","/shop?cat=undergarments"]];
+ return <><section className="hero"><div className="hero-copy"><span className="eyebrow">SIDRA FABRICS • NEW SEASON 2026</span><h1>Style that moves<br/><em>with you.</em></h1><p>Premium fashion, fragrance and everyday essentials, curated for modern Pakistan.</p><div className="hero-actions"><Link className="btn btn-dark" to="/shop">Shop collection</Link><Link className="btn btn-light" to="/shop?sale=1">Explore sale</Link></div></div><div className="hero-art"><div className="hero-orb orb-a"/><div className="hero-orb orb-b"/><div className="hero-card"><span>SF</span><b>SIDRA<br/>FABRICS</b></div></div></section>
+ <section className="trust-strip"><span>✓ LIVE CATALOG</span><span>✓ SECURE CHECKOUT</span><span>✓ COD AVAILABLE</span><span>✓ 7-DAY RETURNS</span></section>
+ <section className="section"><div className="container"><div className="section-head"><div><span className="eyebrow">CURATED FOR YOU</span><h2 className="section-title">The latest edit.</h2></div><Link className="text-link" to="/shop">View all →</Link></div><div className="product-grid grid">{(filtered.length?filtered:products).slice(0,8).map((p,i)=><ProductCard product={p} index={i} key={p.id}/>)}</div></div></section>
+ {sections.map(([cat,title,link],s)=><section className={`section category-band band-${s}`} key={cat}><div className="container"><div className="section-head"><div><span className="eyebrow">SIDRA FABRICS • {cat.toUpperCase()}</span><h2 className="section-title">{title}</h2></div><Link className="text-link" to={link}>Shop all →</Link></div><div className="product-grid grid">{products.filter(p=>p.category===cat).sort((a,b)=>Number(b.featured)-Number(a.featured)||Number(b.id)-Number(a.id)).slice(0,4).map((p,i)=><ProductCard product={p} index={i} key={p.id}/>)}</div></div></section>)}
+ <section className="editorial"><div className="container editorial-inner"><div><span className="eyebrow">THE SIDRA FABRICS STANDARD</span><h2>Premium feel.<br/><em>Every detail.</em></h2><p>Thoughtful design, expressive essentials and a polished shopping experience from discovery to delivery.</p><Link className="btn btn-dark" to="/account">Your account</Link></div><div className="editorial-shape"><span>01</span><b>CRAFTED<br/>FOR DAILY<br/>LIFE</b></div></div></section>
+ </>;
+}

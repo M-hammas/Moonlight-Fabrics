@@ -1,0 +1,9 @@
+.order-tracking-page {
+    min-height: 100vh;
+    padding: 48px 0;
+}
+
+.order-tracking-page .container {
+    max-width: 1180px;
+    margin: 0 auto;
+}

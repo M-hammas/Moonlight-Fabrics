@@ -1,0 +1,9 @@
+import React,{useState} from "react";
+export default function ProductForm({initial={},onSave,onCancel}){
+ const [form,setForm]=useState({name:"",slug:"",category:"Women Clothing",description:"",price:"",sale_price:"",stock:0,image:"",is_new:false,is_sale:false,...initial});
+ const set=(k,v)=>setForm(x=>({...x,[k]:v}));
+ return <form className="admin-form" onSubmit={e=>{e.preventDefault();onSave({...form,price:Number(form.price),sale_price:form.sale_price?Number(form.sale_price):null,stock:Number(form.stock),images:form.image?[form.image]:[],sizes:[],colors:[],featured:form.is_new||form.is_sale})}}>
+  <div className="form-grid"><label>Name<input value={form.name} onChange={e=>set("name",e.target.value)} required/></label><label>Slug<input value={form.slug} onChange={e=>set("slug",e.target.value)} required/></label><label>Category<select value={form.category} onChange={e=>set("category",e.target.value)}><option>Women Clothing</option><option>Women Fragrance</option><option>Shoes</option><option>Undergarments</option></select></label><label>Price<input type="number" value={form.price} onChange={e=>set("price",e.target.value)} required/></label><label>Sale price<input type="number" value={form.sale_price||""} onChange={e=>set("sale_price",e.target.value)}/></label><label>Stock<input type="number" value={form.stock} onChange={e=>set("stock",e.target.value)}/></label><label className="wide">Image URL<input value={form.image} onChange={e=>set("image",e.target.value)}/></label><label className="wide">Description<textarea rows="4" value={form.description} onChange={e=>set("description",e.target.value)}/></label></div>
+  <div className="form-actions"><button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button><button className="btn btn-dark">Save product</button></div>
+ </form>
+}
