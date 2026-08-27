@@ -9,6 +9,9 @@ const projectRoot = process.cwd();
 
 export default defineConfig({
   root: projectRoot,
+
+  base: "/Moonlight-Fabrics/",
+
   plugins: [react()],
 
   server: {
